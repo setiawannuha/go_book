@@ -11,3 +11,13 @@ type User struct {
 }
 
 type Users []User
+
+// CREATE TABLE public.tbl_users
+// (
+//     id character varying COLLATE pg_catalog."default" NOT NULL DEFAULT uuid_generate_v4(),
+//     email character varying COLLATE pg_catalog."default" NOT NULL,
+//     password character varying COLLATE pg_catalog."default" NOT NULL,
+//     created_at timestamp with time zone DEFAULT now(),
+//     updated_at timestamp with time zone DEFAULT now(),
+//     CONSTRAINT tbl_users_pkey PRIMARY KEY (id)
+// )
