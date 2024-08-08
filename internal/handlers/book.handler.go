@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"fmt"
+
+	"github.com/asaskevich/govalidator"
 	"github.com/setiawannuha/go_book/internal/models"
 	"github.com/setiawannuha/go_book/internal/repository"
 	"github.com/setiawannuha/go_book/pkg"
@@ -23,6 +26,12 @@ func (h *BookHandler) Create(ctx *gin.Context) {
 		response.BadRequest("create data failed", err.Error())
 		return
 	}
+	_, err := govalidator.ValidateStruct(&body)
+	if err != nil {
+		response.BadRequest("create data failed", err.Error())
+		return
+	}
+
 	result, err := h.CreateData(&body)
 	if err != nil {
 		response.BadRequest("create data failed", err.Error())
@@ -49,6 +58,8 @@ func (h *BookHandler) GetAll(ctx *gin.Context) {
 		response.InternalServerError("get data failed", err.Error())
 		return
 	}
+	fmt.Println(ctx.Get("userId"))
+	fmt.Println(ctx.Get("email"))
 	response.Success("get data success", result)
 }
 

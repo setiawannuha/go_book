@@ -3,13 +3,13 @@ package models
 import "time"
 
 type Book struct {
-	Id           string     `db:"id" json:"id"`
-	Title        string     `db:"title" json:"title"`
-	Image        string     `db:"image" json:"image"`
-	Author       string     `db:"author" json:"author"`
-	Release_date string     `db:"release_date" json:"release_date"`
-	Created_at   *time.Time `db:"created_at" json:"created_at"`
-	Updated_at   *time.Time `db:"updated_at" json:"updated_at"`
+	Id           string     `db:"id" json:"id" valid:"-"`
+	Title        string     `db:"title" json:"title" valid:"stringlength(5|100)~Title minimal 5 dan maksimal 100"`
+	Image        string     `db:"image" json:"image" valid:"-"`
+	Author       string     `db:"author" json:"author" valid:"type(string)"`
+	Release_date string     `db:"release_date" json:"release_date" valid:"-"`
+	Created_at   *time.Time `db:"created_at" json:"created_at" valid:"-"`
+	Updated_at   *time.Time `db:"updated_at" json:"updated_at" valid:"-"`
 }
 
 type Books []Book
