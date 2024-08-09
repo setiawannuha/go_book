@@ -4,6 +4,7 @@ import (
 	"github.com/setiawannuha/go_book/internal/handlers"
 	"github.com/setiawannuha/go_book/internal/middleware"
 	"github.com/setiawannuha/go_book/internal/repository"
+	"github.com/setiawannuha/go_book/pkg"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -13,7 +14,8 @@ func bookRouter(g *gin.Engine, d *sqlx.DB) {
 	route := g.Group("/book")
 
 	var repo repository.BookRepositoryInterface = repository.NewBookRepository(d)
-	handler := handlers.NewBookHandler(repo)
+	var cld pkg.Cloudinary = *pkg.NewCloudinaryUtil()
+	handler := handlers.NewBookHandler(repo, cld)
 
 	route.GET("/", middleware.LogMiddleware(), middleware.AuthJwtMiddleware(), handler.GetAll)
 	route.GET("/:id", handler.GetDetail)

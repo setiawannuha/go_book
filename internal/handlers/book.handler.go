@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/setiawannuha/go_book/internal/models"
@@ -13,10 +14,11 @@ import (
 
 type BookHandler struct {
 	repository.BookRepositoryInterface
+	pkg.Cloudinary
 }
 
-func NewBookHandler(r repository.BookRepositoryInterface) *BookHandler {
-	return &BookHandler{r}
+func NewBookHandler(r repository.BookRepositoryInterface, cld pkg.Cloudinary) *BookHandler {
+	return &BookHandler{r, cld}
 }
 
 func (h *BookHandler) Create(ctx *gin.Context) {
@@ -31,6 +33,29 @@ func (h *BookHandler) Create(ctx *gin.Context) {
 		response.BadRequest("create data failed", err.Error())
 		return
 	}
+
+	// get file from request body
+	file, header, err := ctx.Request.FormFile("image")
+	if err != nil {
+		response.BadRequest("create data failed, upload file failed", err.Error())
+		return
+	}
+	// validate file ext
+	fmt.Println(header.Size)
+	mimeType := header.Header.Get("Content-Type")
+	if mimeType != "image/jpg" && mimeType != "image/png" {
+		response.BadRequest("create data failed, upload file failed, wrong file type", err.Error())
+		return
+	}
+	// upload file
+	randomNumber := rand.Int()
+	fileName := fmt.Sprintf("go-book-%d", randomNumber)
+	uploadResult, err := h.UploadFile(ctx, file, fileName)
+	if err != nil {
+		response.BadRequest("create data failed, upload file failed", err.Error())
+		return
+	}
+	body.Image = uploadResult.SecureURL
 
 	result, err := h.CreateData(&body)
 	if err != nil {
