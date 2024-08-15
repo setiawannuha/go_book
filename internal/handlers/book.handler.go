@@ -14,10 +14,10 @@ import (
 
 type BookHandler struct {
 	repository.BookRepositoryInterface
-	pkg.Cloudinary
+	pkg.CloudinaryInterface
 }
 
-func NewBookHandler(r repository.BookRepositoryInterface, cld pkg.Cloudinary) *BookHandler {
+func NewBookHandler(r repository.BookRepositoryInterface, cld pkg.CloudinaryInterface) *BookHandler {
 	return &BookHandler{r, cld}
 }
 

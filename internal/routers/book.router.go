@@ -14,7 +14,7 @@ func bookRouter(g *gin.Engine, d *sqlx.DB) {
 	route := g.Group("/book")
 
 	var repo repository.BookRepositoryInterface = repository.NewBookRepository(d)
-	var cld pkg.Cloudinary = *pkg.NewCloudinaryUtil()
+	var cld pkg.CloudinaryInterface = pkg.NewCloudinaryUtil()
 	handler := handlers.NewBookHandler(repo, cld)
 
 	route.GET("/", middleware.LogMiddleware(), middleware.AuthJwtMiddleware(), handler.GetAll)

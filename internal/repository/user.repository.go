@@ -23,5 +23,5 @@ func (r *UserRepository) CreateUser(body *models.User) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return "data created", nil
+	return "data created success", nil
 }
