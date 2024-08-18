@@ -1,4 +1,4 @@
-CREATE TABLE db_latihan_gin_prod.tbl_users
+CREATE TABLE tbl_users
 (
     id varchar(255) NOT NULL,
     email varchar(255) NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE db_latihan_gin_prod.tbl_books
+CREATE TABLE tbl_books
 (
     id varchar(255) NOT NULL,
     title varchar(255) NOT NULL,
